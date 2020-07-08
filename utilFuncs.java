@@ -31,7 +31,7 @@ public class utilFuncs {
 		for(int r = 0; r < srcMask.rows(); r++) {
 			for(int c = 0; c < srcMask.cols(); c++) {
 				if(srcMask.get(r, c)[0] == 0) {
-					srcImage.put(r, c, -1.0);
+					srcImage.put(r, c, Constants.HOLE_PIXEL_VAL);
 				}
 			}
 		}

@@ -12,7 +12,14 @@ public class HoleFillRunner {
 			double epsilon = argsParser.getEpsilon();
 			int connectionType = argsParser.getConnectionType();
 			Mat mergedImage = utilFuncs.readImage(imagePath, maskPath);
-			HoleFillMean holeFiller = new HoleFillMean(mergedImage, connectionType, new EuclidWeight(z, epsilon));
+			HoleFiller holeFiller;
+			switch(argsParser.getMode()) {
+				case "approx":
+					holeFiller = new HoleFillApprox(mergedImage, connectionType, new EuclidWeight(z, epsilon));
+					break;
+				default:
+					holeFiller = new HoleFillMean(mergedImage, connectionType, new EuclidWeight(z, epsilon));	
+			}
 			holeFiller.fillHole();
 			utilFuncs.writeImage(holeFiller.getFilledImage());
 		} catch (Exception e) {

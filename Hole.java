@@ -25,7 +25,7 @@ public class Hole {
 			PixelCoordinate neighbour = pix.add(neighboursIndexes.get(i));
 
 			// Check if the neighbor is a hole pixel.
-			if(image.get(neighbour.getRow(), neighbour.getCol())[0] == -1) { continue; }
+			if(image.get(neighbour.getRow(), neighbour.getCol())[0] == Constants.HOLE_PIXEL_VAL) { continue; }
 			boundaryCoordinates.add(neighbour);
 		}
 	}
@@ -35,6 +35,7 @@ public class Hole {
 	
 	public HashSet<PixelCoordinate> getBoundaryPixels() { return boundaryCoordinates; }
 	public ArrayDeque<PixelCoordinate> getHolePixels() { return holeCoordinates; }
+	protected HashMap<Integer, PixelCoordinate> getNeighboursMap() { return this.neighboursIndexes; }
 	
 	private HashMap<Integer, PixelCoordinate> neighboursMap() {
 		HashMap<Integer, PixelCoordinate> neightbours = new HashMap<Integer, PixelCoordinate>();

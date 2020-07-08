@@ -5,13 +5,14 @@ public class commandLineParser {
 	protected HashMap<String, String> arguments;
 	
 	public static final String USAGE = "Usage: -i imagePath -m maskPath "
-			+ "-z normExponent -e epsilon -c connectionType";
+			+ "-z normExponent -e epsilon -c connectionType -a mean|approx|fast";
+	public static final int NUM_OF_ARGS = 12;
 	
 	
 	
 	public commandLineParser(String[] args) throws IllegalArgumentException {
-		if(args.length != 10) {
-			throw new IllegalArgumentException(USAGE); //TODO: Make new exception class for this?
+		if(args.length != NUM_OF_ARGS) {
+			throw new IllegalArgumentException(USAGE);
 		}
 
 		arguments = new HashMap<String, String>();
@@ -32,6 +33,7 @@ public class commandLineParser {
 		checkNorm();
 		checkEpsilon();
 		checkConnectionType();
+		checkMode();
 	}
 
 	private void checkImagePaths(String indentifier) {
@@ -90,9 +92,21 @@ public class commandLineParser {
 		}
 	}
 	
+	private void checkMode() {
+		String modeString = arguments.get("-a");
+		if(modeString == null) {
+			throw new IllegalArgumentException(USAGE);
+		}
+		if(!(modeString.equals("mean") || modeString.equals("approx") || modeString.equals("fast"))) {
+			System.out.println(modeString);
+			throw new IllegalArgumentException("Mode must be mean|approx|fast");
+		}
+	}
+	
 	public String getImagePath() { return arguments.get("-i"); }
 	public String getMaskPath() { return arguments.get("-m"); }
 	public double getZNorm() { return Double.parseDouble(arguments.get("-z")); }
 	public double getEpsilon() { return Double.parseDouble(arguments.get("-e")); }
 	public int getConnectionType() { return Integer.parseInt(arguments.get("-c")); }
+	public String getMode() { return arguments.get("-a"); }
 }
