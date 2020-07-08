@@ -9,7 +9,7 @@ public abstract class HoleFiller {
 	protected Mat image;
 	protected Hole hole;
 	protected Mat filledImage;
-	protected int connectionType;
+	protected ConnectionType connectionType;
 	protected ImageWeightFunction weightFunction;
 	
 
@@ -19,7 +19,7 @@ public abstract class HoleFiller {
 	 * @param connectionType - The connection type between neighbouring pixels.
 	 * @param weightFunction - The weight function for 2 pixels.
 	 */
-	public HoleFiller(final Mat image, int connectionType, ImageWeightFunction weightFunction) {
+	public HoleFiller(final Mat image, ConnectionType connectionType, ImageWeightFunction weightFunction) {
 		this.image = image;
 		this.filledImage = image.clone();
 		this.connectionType = connectionType;
@@ -62,5 +62,5 @@ public abstract class HoleFiller {
 	 * Getter for the connection type
 	 * @return The given connection type
 	 */
-	public int getConnectionType() { return this.connectionType; }
+	public ConnectionType getConnectionType() { return this.connectionType; }
 }

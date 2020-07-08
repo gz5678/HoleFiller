@@ -11,7 +11,7 @@ import java.util.ArrayDeque;
 public class Hole {
 	private ArrayDeque<PixelCoordinate> holeCoordinates;
 	private HashSet<PixelCoordinate> boundaryCoordinates;
-	private int connectionType;
+	private ConnectionType connectionType;
 	private Mat image;
 	private HashMap<Integer, PixelCoordinate> neighboursIndexes;
 	
@@ -20,7 +20,7 @@ public class Hole {
 	 * @param image - The image the hole is in.
 	 * @param connectionType - The type of connection between pixels.
 	 */
-	public Hole(final Mat image, int connectionType) {
+	public Hole(final Mat image, ConnectionType connectionType) {
 		this.holeCoordinates = new ArrayDeque<PixelCoordinate>();
 		this.boundaryCoordinates = new HashSet<PixelCoordinate>();
 		this.connectionType = connectionType;
@@ -35,7 +35,7 @@ public class Hole {
 	 */
 	public void add(PixelCoordinate pix) {
 		holeCoordinates.push(pix);
-		for (int i = 0; i < this.connectionType; i++) {
+		for (int i = 0; i < this.connectionType.getValue(); i++) {
 			PixelCoordinate neighbour = pix.add(neighboursIndexes.get(i));
 
 			// Check if the neighbor is a hole pixel.

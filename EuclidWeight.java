@@ -20,7 +20,7 @@ public class EuclidWeight implements ImageWeightFunction {
 	/**
 	 * Calculates the weight for 2 given pixels.
 	 */
-	public PositiveDouble calcWeight(PixelCoordinate u, PixelCoordinate v) {
+	public PositiveDouble calcWeight(PixelCoordinate u, PixelCoordinate v) throws IllegalArgumentException {
 		// This design allows without more work also 3d coordinates.
 		int[] uArrCords = u.getArrayCords();
 		int[] vArrCords = v.getArrayCords();

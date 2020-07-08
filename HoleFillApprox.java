@@ -15,7 +15,7 @@ public class HoleFillApprox extends HoleFiller {
 	 * @param connectionType - The connection between neighbours (4 or 8)
 	 * @param weightFunction - The weight function between 2 pixel coordinates.
 	 */
-	public HoleFillApprox(final Mat image, int connectionType, ImageWeightFunction weightFunction) {
+	public HoleFillApprox(final Mat image, ConnectionType connectionType, ImageWeightFunction weightFunction) {
 		super(image, connectionType, weightFunction);
 	}
 	
@@ -31,7 +31,7 @@ public class HoleFillApprox extends HoleFiller {
 			for(PixelCoordinate edgePixel: outmostMissingPixels) {
 				sumNumerator = 0;
 				sumDenominator = 0;
-				for (int i = 0; i < this.connectionType; i++) {
+				for (int i = 0; i < this.connectionType.getValue(); i++) {
 					PixelCoordinate neighbour = edgePixel.add(hole.getNeighboursMap().get(i));
 					double neighbourVal = filledImage.get(neighbour.getRow(), neighbour.getCol())[0];
 
@@ -56,7 +56,7 @@ public class HoleFillApprox extends HoleFiller {
 	private HashSet<PixelCoordinate> getOutmostMissingPixels(HashSet<PixelCoordinate> boundaryPixels) {
 		HashSet<PixelCoordinate> outmostMissingPixels = new HashSet<PixelCoordinate>();
 		for(PixelCoordinate boundaryPixel: boundaryPixels) {
-			for (int i = 0; i < this.connectionType; i++) {
+			for (int i = 0; i < this.connectionType.getValue(); i++) {
 				PixelCoordinate neighbour = boundaryPixel.add(hole.getNeighboursMap().get(i));
 				
 				// We want all the pixels that are in the whole since they are one pixel away from the boundary.

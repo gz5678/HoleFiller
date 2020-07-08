@@ -10,7 +10,7 @@ public class HoleFillRunner {
 			String maskPath = argsParser.getMaskPath();
 			double z = argsParser.getZNorm();
 			double epsilon = argsParser.getEpsilon();
-			int connectionType = argsParser.getConnectionType();
+			ConnectionType connectionType = argsParser.getConnectionType();
 			Mat mergedImage = utilFuncs.readImage(imagePath, maskPath);
 			HoleFiller holeFiller;
 			switch(argsParser.getMode()) {

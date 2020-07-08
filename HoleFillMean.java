@@ -15,7 +15,7 @@ public class HoleFillMean extends HoleFiller{
 	 * @param connectionType - The type of connection for boundary pixels. Can be 4 or 8.
 	 * @param weightFunction - The weight function for calculating the hole pixels color.
 	 */
-	public HoleFillMean(final Mat image, int connectionType, ImageWeightFunction weightFunction) {
+	public HoleFillMean(final Mat image, ConnectionType connectionType, ImageWeightFunction weightFunction) {
 		super(image, connectionType, weightFunction);
 	}
 	
