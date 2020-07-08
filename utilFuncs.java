@@ -4,8 +4,20 @@ import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs; 
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * A class with some utility functions for working with images.
+ * @author gzivor
+ *
+ */
 public class utilFuncs {
-	public static Mat readImage(String imgPath, String maskPath) {
+	
+	/**
+	 * Reads an image, converts to grayscale, normalizes to 0-1 and applies the mask
+	 * @param imgPath - The path to the image.
+	 * @param maskPath - The path to the mask.
+	 * @return A image ready for hole filling after the above manipulations.
+	 */
+	public static Mat readImage(String imgPath, String maskPath) throws IllegalArgumentException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		// Read the image as grayscale
 		Mat srcImage = Imgcodecs.imread(imgPath);
@@ -26,8 +38,10 @@ public class utilFuncs {
 		return grayImage;
 	}
 	
-	private static void applyMask(Mat srcImage, Mat srcMask) {
-		//TODO: Check if the size of the image and the mask are the same.
+	private static void applyMask(Mat srcImage, Mat srcMask) throws IllegalArgumentException{
+		if((srcImage.rows() != srcMask.rows()) || (srcImage.cols() != srcMask.cols())) {
+			throw new IllegalArgumentException("Image and mask are not the same size");
+		}
 		for(int r = 0; r < srcMask.rows(); r++) {
 			for(int c = 0; c < srcMask.cols(); c++) {
 				if(srcMask.get(r, c)[0] == 0) {
@@ -37,18 +51,13 @@ public class utilFuncs {
 		}
 	}
 	
+	/**
+	 * Writes an image, given as a matrix, to a file
+	 * @param image - A matrix representing an image.
+	 */
 	public static void writeImage(Mat image) {
 		Mat filledScaledImage = new Mat();
 		Core.normalize(image,filledScaledImage,0.0,255.0,Core.NORM_MINMAX,CvType.CV_32FC1);
-		Imgcodecs.imwrite("mergedImage2.jpg", filledScaledImage);
-	}
-	
-	//TODO: DELETE THIS
-	public static void printPixels(Mat image) {
-		for(int r = 0; r < 50; r++) {
-			for(int c = 0; c < 50; c++) {
-				System.out.println(image.get(r, c)[0]);
-			}
-		}
+		Imgcodecs.imwrite("mergedImage.jpg", filledScaledImage);
 	}
 }

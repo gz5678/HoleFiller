@@ -12,9 +12,12 @@ public abstract class HoleFiller {
 	protected int connectionType;
 	protected ImageWeightFunction weightFunction;
 	
+
 	/**
 	 * Constructor
 	 * @param image - The given image to fill a hole in.
+	 * @param connectionType - The connection type between neighbouring pixels.
+	 * @param weightFunction - The weight function for 2 pixels.
 	 */
 	public HoleFiller(final Mat image, int connectionType, ImageWeightFunction weightFunction) {
 		this.image = image;
