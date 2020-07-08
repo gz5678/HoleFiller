@@ -1,0 +1,65 @@
+Lightricks home test - Hole Filling
+Authour: Gil Zivor
+Description: Find a hole in a given image and fill it using 3 algorithms.
+
+Usage: All arguments must be given, the order doesn't matter.
+-i imagePath -m maskPath -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
+
+------------------Questions----------------------------------
+1. Assuming that the hole and boundary were already found, then according to the algorithm,
+every hole pixel x new value will be the sum of weight (euclidian distance) of all the boundary
+pixels from x times the value of the boundary pixel, divided by the sum of weights.
+So, for every hole pixel, we need to check all the boundary pixels. We have n hole pixels and
+m boundary pixels. So, the runtime will be O(n*m).
+In terms of only the n hole pixels, if we make an assumption that the shape of the
+hole is a circle for example, then the circumference is 2*pi*r and the area is
+pi*r^2. If so, as the radius increases, the circumference grows at a square-root factor
+of the area or we can just say the the . So we can say that m = 2*pi*r = O(sqrt(pi*r^2)).
+So we get m = O(sqrt(n)) and then the runtime of the algorithm will be O(n^1.5).
+Without the "normality" of the hole shape, the border can be as big as the area (a ring
+for example) so then m = O(n) and we get that the runtime is O(n^2)
+
+2. A good aproximation could be the nearby neighbourhood of a pixel. This is problematic
+since the inner pixels of the holes have no neighbors with information. The solution for
+this is to fill the values from the boundary inwards. This means we will start filling all
+the hole pixels that are neighbours with boundary pixels. After they are filled, we'll fill
+all the pixels that are neighbours to the above and so on. The algorithm:
+
+a. Find the hole and boundary pixels.
+b. Find all the pixels in the hole that are neighbors of the boundary.
+c. While there are neigbours of the boundary inside the hole:
+	c.1 For every neighbor of the boundary.
+		c.1.1 Fill in the value to be the weight function given while using only pixels in the boundary (meaning not with value -1)
+	c.2 Find the next set of pixels in the hole that are neighbors of the current boundary.
+
+We can see that we touch every pixel in the hole a finite amount of times (about 16 when searching and as
+a boundary pixel) and the calculation of the value of a pixel also uses 8 pixels. Therefore, we touch every
+pixel in the hole a finite amount of times, so the runtime of the algorithm will be O(n).
+
+3. Looks like the algorithm is calculating some kind of convolution for each pixel in the hole.
+It can be explained as such:
+We want a kernel that is big enough such that for every hole pixel that will be in the middle of the kernel,
+we want the kernel to span such that all the boundary is in the kernel. The values of the kernel should be
+the weight between the pixel and the boundary (put that aside for now). We will convolve this kernel with a
+matrix that has all zeroes, except for the boundary pixels. That way, the convolution will only factor the
+boundary values since the rest of the multiplications will just be 0. If we could achieve this setup, we could
+use FFT and elementwise multiplication to calculate the convolution in O(nlog(n)) runtime and set the hole pixels
+to their value from the convolution (we hava to divide by a denominator which is the same shtantz). n here is the
+number of pixels in the image. The problem is how to define this kernel which kind of looks dynamic for each pixel.
+Actually, the weights can be in relation to the central pixel. Meaning, the kernel will just be the weights, or euclidian
+distance in our case, from the central pixel, which we will call 0,0. Then, when ever a pixel is in the middle of the kernel,
+all the weight are relational to it.
+Therefore, the algorithm will be as follows:
+a. Get numerator:
+	a.1 create weight kernel - matrix where every cell is the euclidean distance from the middle pixel.
+	a.2 create boundary vals matrix - a matrix where every cell is 0, except for the cells that are boundary pixels, there the value stays the same.
+	a.3 FFT the two matrices, multiply elementwise and IFFT back
+b. Get denominator:
+	b.1 create weight kernel - matrix where every cell is the euclidean distance from the middle pixel.
+	b.2 create boundary vals matrix - a matrix where every cell is 0, except for the cells that are boundary pixels, there the value will be 1.
+	b.3 FFT the two matrices, multiply elementwise and IFFT back
+c. Calculate numerator/denominator elementwise
+d. Put the values from the calculated matrix in step c. that relate to the hole pixels instead of the current hole pixels.
+
+We'll have to pad the matrices but the number of pixels will still be O(n). Each convolution with FFT takes us O(nlog(n)) and therefore the
+runtime will be O(nlog(n)).
