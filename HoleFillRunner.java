@@ -17,8 +17,12 @@ public class HoleFillRunner {
 				case "approx":
 					holeFiller = new HoleFillApprox(mergedImage, connectionType, new EuclidWeight(z, epsilon));
 					break;
+				case "fast":
+					holeFiller = new HoleFillFast(mergedImage, connectionType, new EuclidWeight(z, epsilon));
+					break;
 				default:
-					holeFiller = new HoleFillMean(mergedImage, connectionType, new EuclidWeight(z, epsilon));	
+					holeFiller = new HoleFillMean(mergedImage, connectionType, new EuclidWeight(z, epsilon));
+					break;
 			}
 			holeFiller.fillHole();
 			utilFuncs.writeImage(holeFiller.getFilledImage());
