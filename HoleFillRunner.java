@@ -27,7 +27,6 @@ public class HoleFillRunner {
 			holeFiller.fillHole();
 			utilFuncs.writeImage(holeFiller.getFilledImage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 			System.exit(1);
 		}

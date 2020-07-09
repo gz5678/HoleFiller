@@ -87,7 +87,7 @@ public class Hole {
 		neightbours.put(4, new PixelCoordinate(-1, 1));
 		neightbours.put(5, new PixelCoordinate(1, -1));
 		neightbours.put(6, new PixelCoordinate(-1, -1));
-		neightbours.put(7, new PixelCoordinate(-1, 1));
+		neightbours.put(7, new PixelCoordinate(1, 1));
 		return neightbours;
 	}
 }

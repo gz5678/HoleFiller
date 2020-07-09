@@ -163,11 +163,11 @@ public class HoleFillFast extends HoleFiller {
 	private void updateHolePixels(Mat numeratorMat, Mat denominatorMat) {
 		int rowsFactor = numeratorMat.rows() - image.rows();
 		int colsFactor = numeratorMat.cols() - image.cols();
+		Mat divided = new Mat();
+		Core.divide(numeratorMat, denominatorMat, divided);
 		while(!hole.isFilled()) {
 			PixelCoordinate holePix = hole.getHolePixel();
-			double numerator = numeratorMat.get((int)(rowsFactor / 2) + holePix.getRow(), (int)(colsFactor / 2) + holePix.getCol())[0];
-			double denominator = denominatorMat.get((int)(rowsFactor / 2) + holePix.getRow(), (int)(colsFactor / 2) + holePix.getCol())[0];
-			double pixVal = Math.abs(numerator / denominator);
+			double pixVal = divided.get((int)(rowsFactor / 2) + holePix.getRow(), (int)(colsFactor / 2) + holePix.getCol())[0];
 			filledImage.put(holePix.getRow(), holePix.getCol(), pixVal);
 		}
 	}

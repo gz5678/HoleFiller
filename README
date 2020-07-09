@@ -3,7 +3,12 @@ Authour: Gil Zivor
 Description: Find a hole in a given image and fill it using 3 algorithms.
 
 Usage: All arguments must be given, the order doesn't matter.
--i imagePath -m maskPath -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
+-i imagePath(absolute path) -m maskPath(absolute path) -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
+
+I've added three examples you can use. These are the usage strings for them:
+-i <absolute_path>/lena.jpg -m <absolute_path>/lena_mask.jpg -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
+-i <absolute_path>/wide_pic.jpg -m <absolute_path>/wide_pic_mask.jpg -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
+-i <absolute_path>/hi_res.jpg -m <absolute_path>/hi_res_mask.jpg -z z_exponent -e epsilon -c connectionType -a mean|approx|fast
 
 ------------------Questions----------------------------------
 1. Assuming that the hole and boundary were already found, then according to the algorithm,
@@ -63,3 +68,10 @@ d. Put the values from the calculated matrix in step c. that relate to the hole 
 
 We'll have to pad the matrices but the number of pixels will still be O(n). Each convolution with FFT takes us O(nlog(n)) and therefore the
 runtime will be O(nlog(n)).
+
+I didn't manage to complete the last algorithm. It does do some filling but the center part of the hole is wierd.
+I can't seem to determine if it's a problem with the pixel locations I take for the filled data or something is
+wrong with the algorithm. I do get weird values from the convolution (some above 100, some negative) but I also
+get the right values in the outer part of the hole. I stopped at this point because I'm out of time.
+
+I left the fast option available even though it's not completely finished. Maybe you'll just want to see the result.
